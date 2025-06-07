@@ -17,7 +17,7 @@ const register = async (request) => {
     throw new ResponseError("Username already exists", 400);
   }
 
-  user.password = await bcrypt.hashSync(user.password, 10);
+  user.password = await bcrypt.hash(user.password, 10);
 
   return prismaClient.user.create({
     data: user,
