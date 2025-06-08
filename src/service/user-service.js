@@ -38,7 +38,7 @@ const login = async (request) => {
     where: {
       username: loginRequest.username,
     },
-    selecet: {
+    select: {
       username: true,
       password: true,
     },
@@ -71,5 +71,5 @@ const login = async (request) => {
 };
 export default {
   register,
-  login,
+  login
 };

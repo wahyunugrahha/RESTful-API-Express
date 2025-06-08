@@ -73,4 +73,40 @@ describe("POST /api/users/login", function () {
     expect(result.body.data.token).toBeDefined();
     expect(result.body.data.token).not.toBe("token");
   });
+
+  it("should reject with invalid credentials", async function () {
+    const result = await supertest(web).post("/api/users/login").send({
+      username: "",
+      password: "",
+    });
+
+    logger.info(result.body);
+
+    expect(result.status).toBe(400);
+    expect(result.body.errors).toBeDefined();
+  });
+
+  it("should reject with wrong password", async function () {
+    const result = await supertest(web).post("/api/users/login").send({
+      username: "testuser",
+      password: "wrongpassword",
+    });
+
+    logger.info(result.body);
+
+    expect(result.status).toBe(401);
+    expect(result.body.errors).toBeDefined();
+  });
+
+  it("should reject with wrong usenmae", async function () {
+    const result = await supertest(web).post("/api/users/login").send({
+      username: "wronguser",
+      password: "wrongpassword",
+    });
+
+    logger.info(result.body);
+
+    expect(result.status).toBe(401);
+    expect(result.body.errors).toBeDefined();
+  });
 });
