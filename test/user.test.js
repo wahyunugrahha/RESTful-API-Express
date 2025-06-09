@@ -1,6 +1,6 @@
 import supertest from "supertest";
 import { web } from "../src/application/web.js";
-import { createTestUser, removeTestUser } from "./test.util.js";
+import { createTestUser, getTestUser, removeTestUser } from "./test.util.js";
 import { logger } from "../src/application/logging.js";
 describe("POST /api/users", function () {
   afterEach(async () => {
@@ -137,5 +137,34 @@ describe("GET /api/users/current", function () {
 
     expect(result.status).toBe(401);
     expect(result.body.errors).toBeDefined();
+  });
+});
+
+describe("PATCH /api/users/current", function () {
+  beforeEach(async () => {
+    await createTestUser();
+  });
+
+  afterEach(async () => {
+    await removeTestUser();
+  });
+
+  it("should update current user", async () => {
+    const result = await supertest(web)
+      .patch("/api/users/current")
+      .set("Authorization", "token")
+      .send({
+        name: "Updated User",
+        password: "newpassword",
+      });
+
+    expect(result.status).toBe(200);
+    expect(result.body.data.username).toBe("testuser");
+    expect(result.body.data.name).toBe("Updated User");
+
+    const user = getTestUser();
+    expect(await bcrypt.compare("newpassword", (await user).password)).toBe(
+      true
+    );
   });
 });
