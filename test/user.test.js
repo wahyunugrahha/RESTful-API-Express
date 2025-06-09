@@ -229,4 +229,12 @@ describe("DELETE /api/user/logout", function () {
     const user = getTestUser();
     expect(user.token).toBeNull;
   });
+
+  it("should reject if invalid token", async () => {
+    const result = await supertest(web)
+      .delete("/api/users/logout")
+      .set("Authorization", "wrongtoken");
+
+    expect(result.status).toBe(401);
+  });
 });
