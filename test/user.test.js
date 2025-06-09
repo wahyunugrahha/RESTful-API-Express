@@ -209,3 +209,24 @@ describe("PATCH /api/users/current", function () {
     expect(result.status).toBe(401);
   });
 });
+
+describe("DELETE /api/user/logout", function () {
+  beforeEach(async () => {
+    await createTestUser();
+  });
+  afterEach(async () => {
+    await removeTestUser();
+  });
+
+  it("should can logout", async () => {
+    const result = await supertest(web)
+      .delete("/api/users/logout")
+      .set("Authorization", "token");
+
+    expect(result.status).toBe(200);
+    expect(result.body.data).toBe("OK");
+
+    const user = getTestUser();
+    expect(user.token).toBeNull;
+  });
+});
