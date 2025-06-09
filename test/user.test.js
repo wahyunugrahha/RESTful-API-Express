@@ -2,6 +2,8 @@ import supertest from "supertest";
 import { web } from "../src/application/web.js";
 import { createTestUser, getTestUser, removeTestUser } from "./test.util.js";
 import { logger } from "../src/application/logging.js";
+import bcrypt from "bcrypt";
+
 describe("POST /api/users", function () {
   afterEach(async () => {
     await removeTestUser();
@@ -166,5 +168,44 @@ describe("PATCH /api/users/current", function () {
     expect(await bcrypt.compare("newpassword", (await user).password)).toBe(
       true
     );
+  });
+
+  it("should update current user name", async () => {
+    const result = await supertest(web)
+      .patch("/api/users/current")
+      .set("Authorization", "token")
+      .send({
+        name: "Updated User",
+      });
+
+    expect(result.status).toBe(200);
+    expect(result.body.data.username).toBe("testuser");
+    expect(result.body.data.name).toBe("Updated User");
+  });
+
+  it("should update current user password", async () => {
+    const result = await supertest(web)
+      .patch("/api/users/current")
+      .set("Authorization", "token")
+      .send({
+        password: "newpassword",
+      });
+
+    expect(result.status).toBe(200);
+    expect(result.body.data.username).toBe("testuser");
+    expect(result.body.data.name).toBe("Test User");
+
+    const user = getTestUser();
+    expect(await bcrypt.compare("newpassword", (await user).password)).toBe(
+      true
+    );
+  });
+
+  it("should reject if request is invalid", async () => {
+    const result = await supertest(web)
+      .patch("/api/users/current")
+      .set("Authorization", "invalidtoken")
+      .send({});
+    expect(result.status).toBe(401);
   });
 });
