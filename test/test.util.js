@@ -21,7 +21,15 @@ export const createTestUser = async () => {
 };
 
 export const getTestUser = async () => {
-  return  prismaClient.user.findUnique({
+  return prismaClient.user.findUnique({
+    where: {
+      username: "testuser",
+    },
+  });
+};
+
+export const removeAllTestContact = async () => {
+  await prismaClient.contact.deleteMany({
     where: {
       username: "testuser",
     },
