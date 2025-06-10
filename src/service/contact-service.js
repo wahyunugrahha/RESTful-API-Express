@@ -38,7 +38,7 @@ const get = async (user, contactId) => {
     },
   });
   if (!contact) {
-    throw new ResponseError("404", "Contact Not Found");
+    throw new ResponseError(404, "Contact Not Found");
   }
   return contact;
 };
