@@ -13,11 +13,11 @@ describe("POST /api/users", function () {
     const result = await supertest(web).post("/api/users").send({
       username: "testuser",
       password: "testpassword",
-      name: "Test User",
+      name: "testuser",
     });
     expect(result.status).toBe(200);
     expect(result.body.data.username).toBe("testuser");
-    expect(result.body.data.name).toBe("Test User");
+    expect(result.body.data.name).toBe("testuser");
     expect(result.body.data.password).toBeUndefined();
   });
 
@@ -36,7 +36,7 @@ describe("POST /api/users", function () {
     let result = await supertest(web).post("/api/users").send({
       username: "testuser",
       password: "testpassword",
-      name: "Test User",
+      name: "testuser",
     });
 
     expect(result.status).toBe(200);
@@ -46,7 +46,7 @@ describe("POST /api/users", function () {
     result = await supertest(web).post("/api/users").send({
       username: "testuser",
       password: "testpassword",
-      name: "Test User",
+      name: "testuser",
     });
 
     expect(result.status).toBe(400);
@@ -129,7 +129,7 @@ describe("GET /api/users/current", function () {
 
     expect(result.status).toBe(200);
     expect(result.body.data.username).toBe("testuser");
-    expect(result.body.data.name).toBe("Test User");
+    expect(result.body.data.name).toBe("testuser");
   });
 
   it("should reject if token is invalid", async () => {
@@ -193,7 +193,7 @@ describe("PATCH /api/users/current", function () {
 
     expect(result.status).toBe(200);
     expect(result.body.data.username).toBe("testuser");
-    expect(result.body.data.name).toBe("Test User");
+    expect(result.body.data.name).toBe("testuser");
 
     const user = getTestUser();
     expect(await bcrypt.compare("newpassword", (await user).password)).toBe(
