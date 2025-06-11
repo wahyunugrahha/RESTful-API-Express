@@ -3,8 +3,8 @@ import { ResponseError } from "../error/response-error";
 import {
   createContactValidation,
   getContactValidation,
+  updateContactValidation,
 } from "../validation/contact-validation";
-import { updateUserValidation } from "../validation/user-validation";
 import { validate } from "../validation/validation";
 
 const create = async (user, request) => {
@@ -45,7 +45,7 @@ const get = async (user, contactId) => {
 };
 
 const update = async (user, request) => {
-  const contact = validate(updateUserValidation, request);
+  const contact = validate(updateContactValidation, request);
 
   const totalContactInDatabase = await prismaClient.contact.count({
     where: {

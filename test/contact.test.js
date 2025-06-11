@@ -108,13 +108,40 @@ describe("PUT /api/contacts/:contactId", function () {
         phone: "08098764523",
       });
 
-    logger.info("Respons dari server:", result.body);
-
     expect(result.status).toBe(200);
     expect(result.body.data.id).toBe(testContact.id);
     expect(result.body.data.firstName).toBe("update");
     expect(result.body.data.lastName).toBe("update");
     expect(result.body.data.email).toBe("update@gmail.com");
     expect(result.body.data.phone).toBe("08098764523");
+  });
+
+  it("Should reject if invalid data", async () => {
+    const testContact = await getTestContact();
+
+    const result = await supertest(web)
+      .put("/api/contacts/" + testContact.id)
+      .set("Authorization", "token")
+      .send({
+        firstName: "",
+        lastName: "",
+        email: "update",
+        phone: "",
+      });
+
+    expect(result.status).toBe(400);
+  });
+  it("Should reject if contact not found", async () => {
+    const result = await supertest(web)
+      .put("/api/contacts/" + 1)
+      .set("Authorization", "token")
+      .send({
+        firstName: "update",
+        lastName: "update",
+        email: "update@gmail.com",
+        phone: "08098764523",
+      });
+
+    expect(result.status).toBe(404);
   });
 });
