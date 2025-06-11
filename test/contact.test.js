@@ -7,7 +7,7 @@ import {
 } from "./test.util";
 import supertest from "supertest";
 import { web } from "../src/application/web.js";
-import { logger } from "../src/application/logging";
+import { logger } from "../src/application/logging.js";
 
 describe("POST /api/contacts", function () {
   beforeEach(async () => {
@@ -141,6 +141,40 @@ describe("PUT /api/contacts/:contactId", function () {
         email: "update@gmail.com",
         phone: "08098764523",
       });
+
+    expect(result.status).toBe(404);
+  });
+});
+
+describe("DELETE /api/contacts/:contactId", function () {
+  beforeEach(async () => {
+    await createTestUser();
+    await createTestContact();
+  });
+
+  afterEach(async () => {
+    await removeAllTestContact();
+    await removeTestUser();
+  });
+
+  it("Should can delete contact", async () => {
+    let testContact = await getTestContact();
+    const result = await supertest(web)
+      .delete("/api/contacts/" + testContact.id)
+      .set("Authorization", "token");
+
+    logger.info("Result Error: " + result.body);
+    expect(result.status).toBe(200);
+    expect(result.body.data).toBe("OK");
+
+    testContact = await getTestContact();
+    expect(testContact).toBeNull();
+  });
+  it("should reject if contact is not found", async () => {
+    let testContact = await getTestContact();
+    const result = await supertest(web)
+      .delete("/api/contacts/" + (testContact.id + 1))
+      .set("Authorization", "token");
 
     expect(result.status).toBe(404);
   });
