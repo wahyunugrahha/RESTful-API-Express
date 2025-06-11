@@ -80,8 +80,41 @@ describe("POST /api/contacts/:contactId", function () {
       .get("/api/contacts/" + testContact.id + 1)
       .set("Authorization", "token");
 
+    expect(result.status).toBe(404);
+  });
+});
+
+describe("PUT /api/contacts/:contactId", function () {
+  beforeEach(async () => {
+    await createTestUser();
+    await createTestContact();
+  });
+
+  afterEach(async () => {
+    await removeAllTestContact();
+    await removeTestUser();
+  });
+
+  it("Should can update existing contact", async () => {
+    const testContact = await getTestContact();
+
+    const result = await supertest(web)
+      .put("/api/contacts/" + testContact.id)
+      .set("Authorization", "token")
+      .send({
+        firstName: "update",
+        lastName: "update",
+        email: "update@gmail.com",
+        phone: "08098764523",
+      });
+
     logger.info("Respons dari server:", result.body);
 
-    expect(result.status).toBe(404);
+    expect(result.status).toBe(200);
+    expect(result.body.data.id).toBe(testContact.id);
+    expect(result.body.data.firstName).toBe("update");
+    expect(result.body.data.lastName).toBe("update");
+    expect(result.body.data.email).toBe("update@gmail.com");
+    expect(result.body.data.phone).toBe("08098764523");
   });
 });
