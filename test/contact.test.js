@@ -196,11 +196,71 @@ describe("GET /api/contacts", function () {
       .set("Authorization", "token");
 
     logger.info("Result Error: " + result.body);
-    
+
     expect(result.status).toBe(200);
     expect(result.body.data.length).toBe(10);
     expect(result.body.paging.page).toBe(1);
     expect(result.body.paging.total_page).toBe(2);
     expect(result.body.paging.total_item).toBe(15);
+  });
+
+  it("should can search to page 2", async () => {
+    const result = await supertest(web)
+      .get("/api/contacts")
+      .query({ page: 2 })
+      .set("Authorization", "token");
+
+    logger.info("Result Error: " + result.body);
+
+    expect(result.status).toBe(200);
+    expect(result.body.data.length).toBe(5);
+    expect(result.body.paging.page).toBe(2);
+    expect(result.body.paging.total_page).toBe(2);
+    expect(result.body.paging.total_item).toBe(15);
+  });
+
+  it("should can search with name", async () => {
+    const result = await supertest(web)
+      .get("/api/contacts")
+      .query({ name: "test 1" })
+      .set("Authorization", "token");
+
+    logger.info("Result Error: " + result.body);
+
+    expect(result.status).toBe(200);
+    expect(result.body.data.length).toBe(6);
+    expect(result.body.paging.page).toBe(1);
+    expect(result.body.paging.total_page).toBe(1);
+    expect(result.body.paging.total_item).toBe(6);
+  });
+
+  it("should can search with email", async () => {
+    const result = await supertest(web)
+      .get("/api/contacts")
+      .query({ email: "testemail1" })
+      .set("Authorization", "token");
+
+    logger.info("Result Error: " + result.body);
+
+    expect(result.status).toBe(200);
+    expect(result.body.data.length).toBe(6);
+    expect(result.body.paging.page).toBe(1);
+    expect(result.body.paging.total_page).toBe(1);
+    expect(result.body.paging.total_item).toBe(6);
+  });
+
+  it("should can search with phone", async () => {
+    const result = await supertest(web)
+      .get("/api/contacts")
+      .query({ phone: "081234567891" })
+      .set("Authorization", "token");
+
+    logger.info("Result Error: " + result.body);
+
+    expect(result.status).toBe(200);
+    expect(result.body.data.length).toBe(6);
+    expect(result.body.paging.page).toBe(1);
+    expect(result.body.paging.total_page).toBe(1);
+    expect(result.body.paging.total_item).toBe(6);
   });
 });
