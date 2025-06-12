@@ -1,7 +1,6 @@
 import supertest from "supertest";
 import { web } from "../src/application/web.js";
 import { createTestUser, getTestUser, removeTestUser } from "./test.util.js";
-import { logger } from "../src/application/logging.js";
 import bcrypt from "bcrypt";
 
 describe("POST /api/users", function () {
@@ -69,8 +68,6 @@ describe("POST /api/users/login", function () {
       password: "testpassword",
     });
 
-    logger.info(result.body);
-
     expect(result.status).toBe(200);
     expect(result.body.data.token).toBeDefined();
     expect(result.body.data.token).not.toBe("token");
@@ -82,8 +79,6 @@ describe("POST /api/users/login", function () {
       password: "",
     });
 
-    logger.info(result.body);
-
     expect(result.status).toBe(400);
     expect(result.body.errors).toBeDefined();
   });
@@ -94,8 +89,6 @@ describe("POST /api/users/login", function () {
       password: "wrongpassword",
     });
 
-    logger.info(result.body);
-
     expect(result.status).toBe(401);
     expect(result.body.errors).toBeDefined();
   });
@@ -105,8 +98,6 @@ describe("POST /api/users/login", function () {
       username: "wronguser",
       password: "wrongpassword",
     });
-
-    logger.info(result.body);
 
     expect(result.status).toBe(401);
     expect(result.body.errors).toBeDefined();
