@@ -41,8 +41,8 @@ model Address {
   street     String? @db.VarChar(255)
   city       String? @db.VarChar(255)
   province   String? @db.VarChar(255)
-  country    String? @db.VarChar(100)
-  postalCode String? @db.VarChar(20)
+  country    String @db.VarChar(100)
+  postalCode String @db.VarChar(20)
   contactId  Int
   contact    Contact @relation(fields: [contactId], references: [id])
 
