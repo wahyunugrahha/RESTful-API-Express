@@ -7,6 +7,9 @@ import { validate } from "../validation/validation";
 const create = async (user, contactId, request) => {
   contactId = validate(getContactValidation, contactId);
 
+  const address = validate(createAddressValidation, request);
+  address.contactId = contactId;
+
   const totalContactInDatabase = await prismaClient.contact.count({
     where: {
       username: user.username,
@@ -19,7 +22,6 @@ const create = async (user, contactId, request) => {
   }
 
   request = validate(createAddressValidation, request);
-  address.contact_id = contactId;
 
   return prismaClient.address.create({
     data: address,

@@ -33,7 +33,7 @@ describe("POST /api/contacts/:contactId/addresses", function () {
         city: "city",
         province: "province",
         country: "indonesia",
-        postal_code: "31923",
+        postalCode: "31923",
       });
 
     logger.info("Result Error: " + result.body);
@@ -43,6 +43,6 @@ describe("POST /api/contacts/:contactId/addresses", function () {
     expect(result.body.data.city).toBe("city");
     expect(result.body.data.province).toBe("province");
     expect(result.body.data.country).toBe("indonesia");
-    expect(result.body.data.postal_code).toBe("31923");
+    expect(result.body.data.postalCode).toBe("31923");
   });
 });
