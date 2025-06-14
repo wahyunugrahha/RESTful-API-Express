@@ -36,7 +36,6 @@ describe("POST /api/contacts/:contactId/addresses", function () {
         postalCode: "31923",
       });
 
-    logger.info("Result Error: " + result.body);
     expect(result.status).toBe(200);
     expect(result.body.data.id).toBeDefined();
     expect(result.body.data.street).toBe("teststreet");
@@ -44,5 +43,23 @@ describe("POST /api/contacts/:contactId/addresses", function () {
     expect(result.body.data.province).toBe("province");
     expect(result.body.data.country).toBe("indonesia");
     expect(result.body.data.postalCode).toBe("31923");
+  });
+
+    it("Should reject if invalid address", async () => {
+    const testContact = await getTestContact();
+
+    const result = await supertest(web)
+      .post("/api/contacts/" + testContact.id + "/addresses")
+      .set("Authorization", "token")
+      .send({
+        street: "teststreet",
+        city: "city",
+        province: "province",
+        country: "",
+        postalCode: "",
+      });
+
+    expect(result.status).toBe(400);
+
   });
 });

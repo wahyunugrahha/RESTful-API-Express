@@ -7,7 +7,7 @@ const create = async (req, res, next) => {
     const contactId = req.params.contactId;
 
     const result = await addressService.create(user, contactId, request);
-    res.status(200),
+    res.status(200).
       json({
         data: result,
       });
