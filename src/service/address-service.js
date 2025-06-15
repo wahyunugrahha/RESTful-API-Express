@@ -63,6 +63,8 @@ const get = async (user, contactId, addressId) => {
   if (!address) {
     throw new ResponseError(404, "address not found");
   }
+
+  return address
 };
 export default {
   create,

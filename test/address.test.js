@@ -92,4 +92,28 @@ describe("GET /api/contacts/:contactId/addresses/:addressId", function () {
     expect(result.body.data.country).toBe("indonesia");
     expect(result.body.data.postalCode).toBe("31923");
   });
+
+  it("Should reject if contact not found", async () => {
+    const testContact = await getTestContact();
+    const testAddress = await getTestAddress();
+
+    const result = await supertest(web)
+      .get(
+        "/api/contacts/" + (testContact.id + 1) + "/addresses/" + testAddress.id
+      )
+      .set("Authorization", "token");
+    expect(result.status).toBe(404);
+  });
+
+  it("Should reject if contact not found", async () => {
+    const testContact = await getTestContact();
+    const testAddress = await getTestAddress();
+
+    const result = await supertest(web)
+      .get(
+        "/api/contacts/" + testContact.id + "/addresses/" + (testAddress.id + 1)
+      )
+      .set("Authorization", "token");
+    expect(result.status).toBe(404);
+  });
 });
