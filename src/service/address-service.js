@@ -51,7 +51,7 @@ const get = async (user, contactId, addressId) => {
       contactId: contactId,
       id: addressId,
     },
-    data: {
+    select: {
       id: true,
       street: true,
       city: true,
