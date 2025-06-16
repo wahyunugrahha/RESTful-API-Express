@@ -67,7 +67,7 @@ const list = async (req, res, next) => {
     const user = req.user;
     const contactId = req.params.contactId;
 
-    const result = await addressService.remove(user, contactId);
+    const result = await addressService.list(user, contactId);
     res.status(200).json({
       data: result,
     });
