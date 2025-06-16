@@ -23,5 +23,12 @@ userRouter.delete("/api/contacts/:contactId", contactControler.remove);
 //Address API
 
 userRouter.post("/api/contacts/:contactId/addresses", addressController.create);
-userRouter.get("/api/contacts/:contactId/addresses/:addressId", addressController.get);
+userRouter.get(
+  "/api/contacts/:contactId/addresses/:addressId",
+  addressController.get
+);
+userRouter.put(
+  "/api/contacts/:contactId/addresses/:addressId",
+  addressController.update
+);
 export { userRouter };
