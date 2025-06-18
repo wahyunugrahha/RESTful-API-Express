@@ -117,5 +117,7 @@ npm test
 
 
 
-----
-Made with love by Wahyu🔥
+```
+---
+Made with love by Wahyu 🔥
+
