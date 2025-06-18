@@ -60,7 +60,6 @@ Sebuah RESTful API yang dibangun dengan Express.js untuk mengelola kontak dan al
 * `token` (VARCHAR)
 
 
-
 ### Tabel `contacts`
 
 * `id` (SERIAL, Primary Key)
@@ -115,3 +114,8 @@ Untuk menjalankan tes, gunakan perintah berikut:
 
 ```bash
 npm test
+
+
+
+----
+Made with love by Wahyu🔥
