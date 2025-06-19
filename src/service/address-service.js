@@ -1,12 +1,12 @@
-import { prismaClient } from "../application/database";
-import { ResponseError } from "../error/response-error";
+import { prismaClient } from "../application/database.js";
+import { ResponseError } from "../error/response-error.js";
 import {
   createAddressValidation,
   getAddressValidation,
   updateAddressValidation,
-} from "../validation/address-validation";
-import { getContactValidation } from "../validation/contact-validation";
-import { validate } from "../validation/validation";
+} from "../validation/address-validation.js";
+import { getContactValidation } from "../validation/contact-validation.js";
+import { validate } from "../validation/validation.js";
 
 const checkContactMustExist = async (user, contactId) => {
   contactId = validate(getContactValidation, contactId);
